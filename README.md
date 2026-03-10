@@ -1,59 +1,65 @@
-# EjerciciosAngularApp
+# Taller Angular y React
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.0.
+Repositorio del taller práctico de introducción a Angular y React. Contiene dos proyectos independientes, uno por framework, con sus respectivos ejercicios y presentaciones.
 
-## Development server
+---
 
-To start a local development server, run:
+## Estructura
 
-```bash
-ng serve
+```
+taller-angular-react/
+├── angular/          # Proyecto Angular
+├── react/            # Proyecto React
+├── presentacion_angular_v20-21.html
+└── presentacion_react_v19.html
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Angular
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Versión: Angular 20/21 con componentes standalone y routing.
 
+**Arrancar:**
 ```bash
-ng generate component component-name
+cd angular
+npm install
+npm start
+# http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**Ejercicios:**
+1. Tarjeta de perfil — componentes, interpolación, binding
+2. Carrito de la compra — two-way binding, ngFor, ngIf
+3. Lista de usuarios — servicios, HttpClient
+4. Posts con detalle — routing, RouterLink, ActivatedRoute
+5. Lista de Pokemon — servicio con Observable, API externa
 
+---
+
+## React
+
+Versión: React 19 con Vite, TypeScript y react-router-dom v7.
+
+**Arrancar:**
 ```bash
-ng generate --help
+cd react
+npm install
+npm run dev
+# http://localhost:5173
 ```
 
-## Building
+**Ejercicios:**
+1. Contador mejorado — useState, eventos
+2. Lista de tareas — useState con arrays, formularios controlados
+3. Lista de Pokemon — useEffect, fetch, API externa
+4. Posts con detalle — custom hook useFetch, useParams, routing
 
-To build the project run:
+---
 
-```bash
-ng build
-```
+## Presentaciones
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Abrir directamente en el navegador:
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `presentacion_angular_v20-21.html`
+- `presentacion_react_v19.html`
