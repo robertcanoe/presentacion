@@ -1,0 +1,102 @@
+.home {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.home header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.home header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.home header p {
+  color: #64748b;
+}
+
+.home .grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.home .card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  background: white;
+  transition: box-shadow 0.2s;
+}
+
+.home .card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
+}
+
+.home .card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.home .card-header .emoji  { font-size: 1.5rem; }
+.home .card-header .numero {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.home .card h2 {
+  font-size: 1rem;
+  color: #1e293b;
+}
+
+.home .card > p {
+  color: #64748b;
+  font-size: 0.875rem;
+  flex: 1;
+}
+
+.home .tags {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.home .tag {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+}
+
+.home .btn {
+  display: inline-block;
+  margin-top: 0.25rem;
+  background: #6366f1;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.home .btn:hover {
+  background: #4f46e5;
+}

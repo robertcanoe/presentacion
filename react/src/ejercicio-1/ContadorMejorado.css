@@ -1,0 +1,51 @@
+.contador-card {
+  padding: 1.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  max-width: 320px;
+  background: white;
+}
+
+.contador-hint {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.contador-display {
+  font-size: 4rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 1rem;
+  background: #1e293b;
+  color: #f1f5f9;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.contador-botones {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.contador-botones button {
+  padding: 0.6rem 1.25rem;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.contador-botones .btn-incrementar { background: #22c55e; }
+.contador-botones .btn-decrementar { background: #ef4444; }
+.contador-botones .btn-reset       { background: #64748b; }
+
+.contador-estado {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+.contador-estado.positivo { color: #22c55e; }
+.contador-estado.negativo { color: #ef4444; }
+.contador-estado.cero     { color: #94a3b8; }

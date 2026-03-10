@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>React 19 - De Cero a Pro</title>
+<style>
+/* Theme Variables */
+:root {
+  --font-family-display: Arial, sans-serif;
+  --font-weight-display: 600;
+  --font-family-content: Arial, sans-serif;
+  --font-weight-content: 400;
+  --font-size-content: 16px;
+  --line-height-content: 1.4;
+}
+
+/* DARK THEME (DEFAULT) */
+body.theme-dark {
+  --color-bg-base: #0f172a;
+  --color-bg-elevated: #020617;
+  --color-bg-surface: #1e293b;
+  --color-bg-muted: #334155;
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  --color-text-accent: #38bdf8;
+  --color-primary: #38bdf8;
+  --color-primary-foreground: #0f172a;
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-content);
+  font-weight: var(--font-weight-content);
+  font-size: var(--font-size-content);
+  line-height: var(--line-height-content);
+  overflow-x: hidden;
+}
+
+/* Slide Container */
+.slide {
+  width: 960px;
+  height: 540px;
+  margin: 0 auto 20px;
+  display: flex;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Layout Utilities */
+.row { display: flex; flex-direction: row; }
+.col { display: flex; flex-direction: column; }
+.center {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.space-between { justify-content: space-between; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.fill-width { flex: 1; }
+.fill-height { flex: 1; display: flex; flex-direction: column; }
+
+/* Spacing */
+.gap-sm { gap: 0.5rem; }
+.gap-md { gap: 1rem; }
+.gap-lg { gap: 1.5rem; }
+.gap-xl { gap: 2rem; }
+.gap-2xl { gap: 3rem; }
+
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.p-8 { padding: 2rem; }
+.p-12 { padding: 3rem; }
+.p-16 { padding: 4rem; }
+
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.mb-12 { margin-bottom: 3rem; }
+
+.mt-2 { margin-top: 0.5rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mt-8 { margin-top: 2rem; }
+.mt-12 { margin-top: 3rem; }
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-display);
+  font-weight: var(--font-weight-display);
+  line-height: 1.2;
+  margin: 0;
+}
+
+h1 { font-size: 3rem; }
+h2 { font-size: 2.25rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+.text-6xl { font-size: 3.75rem; }
+.text-5xl { font-size: 3rem; }
+.text-4xl { font-size: 2.25rem; }
+.text-3xl { font-size: 1.875rem; }
+.text-2xl { font-size: 1.5rem; }
+.text-xl { font-size: 1.25rem; }
+.text-lg { font-size: 1.125rem; }
+.text-base { font-size: 1rem; }
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.font-medium { font-weight: 500; }
+.font-normal { font-weight: 400; }
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.opacity-90 { opacity: 0.9; }
+.opacity-80 { opacity: 0.8; }
+.opacity-70 { opacity: 0.7; }
+.opacity-60 { opacity: 0.6; }
+
+/* Lists */
+ul, ol {
+  margin-left: 2rem;
+  line-height: 1.8;
+}
+
+ul li { list-style: disc; }
+ol li { list-style: decimal; }
+
+li { margin-bottom: 0.75rem; }
+li:last-child { margin-bottom: 0; }
+
+/* Code Blocks */
+pre {
+  background-color: #1e293b;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+code {
+  font-family: 'Courier New', monospace;
+  background-color: #1e293b;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+}
+
+/* Card Styles */
+.card-rect {
+  padding: 2rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+</style>
+</head>
+<body class="theme-dark">
+
+<!-- SLIDE 1: PORTADA -->
+<section class="slide p-16 col center" style="background-color: #020617; color: #f1f5f9;">
+  <h1 class="text-6xl mb-4" style="color: #38bdf8;">React 19</h1>
+  <p style="font-style: italic;">Autor: Roberto Cano Estévez</p>
+  <p class="text-sm mt-8" style="color: #94a3b8;">Marzo 2026 • Versión 19</p>
+</section>
+
+<!-- SLIDE 2: AGENDA -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-6" style="color: #38bdf8;">📋 Agenda del Día (5 horas)</h2>
+  <ul class="text-lg" style="color: #cbd5e1;">
+    <li><strong style="color: #38bdf8;">Bloque 1 (2h30):</strong> ¿Qué es React? • Componentes • Hooks • useState • useEffect • Listas</li>
+    <li><strong style="color: #94a3b8;">Descanso (1h)</strong></li>
+    <li><strong style="color: #38bdf8;">Bloque 2 (2h30):</strong> Router • Fetch API • Nuevos Hooks React 19 • Forms • Proyecto real</li>
+  </ul>
+</section>
+
+<!-- SLIDE 3: ¿QUÉ ES REACT HOY? -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-3" style="color: #38bdf8;">¿Qué es React en 2026?</h2>
+  <p class="text-base mb-4" style="color: #94a3b8; font-style: italic;">Imagina que quieres construir Instagram o Netflix desde cero. React es tu caja de herramientas: componentes reutilizables que se actualizan automáticamente cuando cambian los datos.</p>
+  <ul class="text-lg" style="color: #cbd5e1;">
+    <li><strong>Librería UI</strong> — enfocada 100% en la interfaz de usuario</li>
+    <li><strong>Basado en componentes</strong> — construyes la UI como piezas de LEGO</li>
+    <li><strong>JSX</strong> — HTML dentro de JavaScript: más poder y flexibilidad</li>
+    <li><strong>Hooks modernos</strong> — gestión de estado y efectos con funciones puras</li>
+  </ul>
+</section>
+
+<!-- SLIDE 4: EVOLUCIÓN REACT -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-3" style="color: #38bdf8;">React: La Evolución</h2>
+  <p class="text-base mb-4" style="color: #94a3b8;">React ha evolucionado radicalmente. Lo que antes era complejo ahora es simple y potente.</p>
+  <div class="row gap-lg">
+    <div class="fill-width" style="background-color: #1e293b; padding: 1.5rem;">
+      <h3 class="mb-2" style="color: #f87171;">❌ React Antiguo (v15-v16)</h3>
+      <p style="color: #cbd5e1;">Clases obligatorias, this.setState, métodos lifecycle complicados, HOCs anidados</p>
+    </div>
+    <div class="fill-width" style="background-color: #1e293b; padding: 1.5rem;">
+      <h3 class="mb-2" style="color: #4ade80;">✅ React 19 (hoy)</h3>
+      <p style="color: #cbd5e1;">Hooks puros, componentes funcionales, Server Components, Compiler automático, Actions</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: INSTALACIÓN -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-4" style="color: #38bdf8;">Instalación Rápida</h2>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: Courier New, monospace; font-size: 0.8rem; border-radius: 0.5rem; overflow-x: auto; white-space: pre-wrap;">
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;"># Vite con TypeScript (recomendado)</p>
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;">npm create vite@latest mi-app -- --template react-ts</p>
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;"></p>
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;"># Vite con JavaScript</p>
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;">npm create vite@latest mi-app -- --template react</p>
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;"></p>
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;"># O con Next.js para Server Components</p>
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;">npx create-next-app@latest mi-app</p>
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;"></p>
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;"># Iniciar servidor</p>
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;">cd mi-app</p>
+<p style="color: #cbd5e1; margin-bottom: 0.25rem; margin-top: 0;">npm run dev</p>
+</div>
+  <p class="text-base mt-4" style="color: #94a3b8;">Accede en: http://localhost:5173 (Vite) o http://localhost:3000 (Next.js)</p>
+</section>
+
+<!-- SLIDE 6: ESTRUCTURA PROYECTO -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-6" style="color: #38bdf8;">📁 Estructura del Proyecto</h2>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace;">
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">mi-app/</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">├── src/</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">│   ├── components/</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">│   ├── hooks/</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">│   ├── App.jsx</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">│   └── main.jsx</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">├── index.html</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">├── vite.config.js</p>
+    <p style="color: #cbd5e1;">└── package.json</p>
+  </div>
+</section>
+
+<!-- SLIDE 7: COMPONENTES INTRO -->
+<section class="slide p-16 col center" style="background-color: #020617; color: #f1f5f9;">
+  <h1 class="text-5xl mb-4" style="color: #38bdf8;">Componentes en React</h1>
+  <p class="text-2xl mb-4" style="color: #cbd5e1;">La base de tu aplicación</p>
+  <p class="text-lg" style="color: #94a3b8;">Un componente = función JavaScript que devuelve JSX (HTML + JS).<br>Como bloques de construcción: autónomos, reutilizables y combinables.</p>
+</section>
+
+<!-- SLIDE 8: ANTES VS AHORA -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Antes vs Ahora: Componentes</h2>
+  <p class="text-base mb-3" style="color: #94a3b8;">Antes usábamos clases complicadas. Ahora todo son funciones simples.</p>
+  <div class="row gap-lg">
+    <div class="fill-width" style="background-color: #1e293b; padding: 1.5rem;">
+      <h3 class="mb-4" style="color: #f87171;">❌ React Antiguo</h3>
+      <div style="background-color: #0f172a; padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.75rem;">
+        <p style="color: #cbd5e1; margin: 0;">class User extends Component {</p>
+        <p style="color: #cbd5e1; margin: 0;">  render() {</p>
+        <p style="color: #cbd5e1; margin: 0;">    return &lt;h2&gt;{this.props.name}&lt;/h2&gt;</p>
+        <p style="color: #cbd5e1; margin: 0;">  }</p>
+        <p style="color: #cbd5e1; margin: 0;">}</p>
+      </div>
+    </div>
+    <div class="fill-width" style="background-color: #1e293b; padding: 1.5rem;">
+      <h3 class="mb-4" style="color: #4ade80;">✅ React 19</h3>
+      <div style="background-color: #0f172a; padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.75rem;">
+        <p style="color: #cbd5e1; margin: 0;">function User({ name }) {</p>
+        <p style="color: #cbd5e1; margin: 0;">  return &lt;h2&gt;{name}&lt;/h2&gt;</p>
+        <p style="color: #cbd5e1; margin: 0;">}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: PRIMER COMPONENTE -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Tu Primer Componente</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Los componentes son funciones que devuelven JSX. Las props son como parámetros de función.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.8rem;">
+    <p style="color: #c792ea; margin-bottom: 0.75rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Saludo</span>({ <span style="color: #f78c6c;">nombre</span> }) {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">div</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">h1</span>&gt;¡Hola {<span style="color: #f78c6c;">nombre</span>}!&lt;/<span style="color: #f07178;">h1</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">div</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.75rem;">}</p>
+    
+    <p style="color: #6b7280; margin-bottom: 0.5rem;">// Usar el componente</p>
+    <p style="color: #cbd5e1;">&lt;<span style="color: #82aaff;">Saludo</span> <span style="color: #c792ea;">nombre</span>=<span style="color: #c3e88d;">"React 19"</span> /&gt;</p>
+  </div>
+</section>
+
+<!-- SLIDE 10: JSX -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">JSX: HTML + JavaScript</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 JSX permite escribir estructura HTML dentro de JavaScript. Las llaves {} evalúan expresiones JS.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.85rem;">
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Producto</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> <span style="color: #f78c6c;">titulo</span> = <span style="color: #c3e88d;">'MacBook Pro'</span>;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> <span style="color: #f78c6c;">precio</span> = <span style="color: #f78c6c;">1999</span>;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> <span style="color: #f78c6c;">disponible</span> = <span style="color: #ff5370;">true</span>;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.75rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">div</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">h2</span>&gt;{titulo}&lt;/<span style="color: #f07178;">h2</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">p</span>&gt;Precio: {precio}€&lt;/<span style="color: #f07178;">p</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">p</span>&gt;Stock: {disponible ? <span style="color: #c3e88d;">'Sí'</span> : <span style="color: #c3e88d;">'No'</span>}&lt;/<span style="color: #f07178;">p</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">div</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE 11: PROPS -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Props: pasar datos entre componentes</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Las props son argumentos que pasas a un componente. Fluyen de padre a hijo (unidireccional).</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.8rem;">
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Tarjeta</span>({ <span style="color: #f78c6c;">imagen</span>, <span style="color: #f78c6c;">titulo</span>, <span style="color: #f78c6c;">precio</span> }) {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">div</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">img</span> <span style="color: #c792ea;">src</span>={imagen} <span style="color: #c792ea;">alt</span>={titulo} /&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">h3</span>&gt;{titulo}&lt;/<span style="color: #f07178;">h3</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">p</span>&gt;{precio}€&lt;/<span style="color: #f07178;">p</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">div</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1; margin-bottom: 1rem;">}</p>
+    
+    <p style="color: #6b7280; margin-bottom: 0.5rem;">// Uso</p>
+    <p style="color: #cbd5e1;">&lt;<span style="color: #82aaff;">Tarjeta</span> <span style="color: #c792ea;">imagen</span>=<span style="color: #c3e88d;">"img.jpg"</span> <span style="color: #c792ea;">titulo</span>=<span style="color: #c3e88d;">"Laptop"</span> <span style="color: #c792ea;">precio</span>={<span style="color: #f78c6c;">999</span>} /&gt;</p>
+  </div>
+</section>
+
+<!-- SLIDE 12: HOOKS INTRO -->
+<section class="slide p-16 col center" style="background-color: #020617; color: #f1f5f9;">
+  <h1 class="text-5xl mb-4" style="color: #38bdf8;">React Hooks</h1>
+  <p class="text-2xl mb-4" style="color: #cbd5e1;">Superpoderes para componentes funcionales</p>
+  <p class="text-lg" style="color: #94a3b8;">Los Hooks son funciones especiales que te permiten "engancharte" a características de React<br>(estado, ciclo de vida, contexto) desde componentes funcionales.</p>
+</section>
+
+<!-- SLIDE 13: USESTATE -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">useState: gestionar estado local</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 useState devuelve [valor, función]. Cada vez que llamas a la función, React re-renderiza el componente con el nuevo valor.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.8rem;">
+    <p style="color: #c792ea; margin-bottom: 0.75rem;"><span style="color: #c792ea;">import</span> { <span style="color: #82aaff;">useState</span> } <span style="color: #c792ea;">from</span> <span style="color: #c3e88d;">'react'</span>;</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Contador</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">  <span style="color: #c792ea;">const</span> [<span style="color: #f78c6c;">contador</span>, <span style="color: #f78c6c;">setContador</span>] = <span style="color: #82aaff;">useState</span>(<span style="color: #f78c6c;">0</span>);</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">div</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">p</span>&gt;Contador: {contador}&lt;/<span style="color: #f07178;">p</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">button</span> <span style="color: #c792ea;">onClick</span>={() =&gt; <span style="color: #82aaff;">setContador</span>(contador + <span style="color: #f78c6c;">1</span>)}&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        +1</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;/<span style="color: #f07178;">button</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">div</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE 14: USEEFFECT -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">useEffect: efectos secundarios</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 useEffect ejecuta código después del render. Perfecto para fetch, suscripciones, manipular DOM.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.75rem;">
+    <p style="color: #c792ea; margin-bottom: 0.75rem;"><span style="color: #c792ea;">import</span> { <span style="color: #82aaff;">useState</span>, <span style="color: #82aaff;">useEffect</span> } <span style="color: #c792ea;">from</span> <span style="color: #c3e88d;">'react'</span>;</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Titulo</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> [<span style="color: #f78c6c;">contador</span>, <span style="color: #f78c6c;">setContador</span>] = <span style="color: #82aaff;">useState</span>(<span style="color: #f78c6c;">0</span>);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #82aaff;">useEffect</span>(() =&gt; {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    <span style="color: #6b7280;">// Se ejecuta cada vez que cambia contador</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    <span style="color: #89ddff;">document</span>.<span style="color: #f78c6c;">title</span> = <span style="color: #c3e88d;">`Clicks: ${contador}`</span>;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  }, [contador]);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">button</span> <span style="color: #c792ea;">onClick</span>={() =&gt; <span style="color: #82aaff;">setContador</span>(contador + <span style="color: #f78c6c;">1</span>)}&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      Haz clic</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">button</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE: USEEFFECT VARIANTES -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">useEffect: las 3 variantes</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 El array de dependencias controla <em>cuándo</em> se ejecuta el efecto. Olvidarlo es el error más común en React.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.75rem;">
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// ❌ Sin array → se ejecuta en CADA render</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.75rem;"><span style="color: #82aaff;">useEffect</span>(() =&gt; { <span style="color: #82aaff;">console</span>.log(<span style="color: #c3e88d;">'render!'</span>) });</p>
+
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// ✅ [] → solo al montar el componente (mount)</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.75rem;"><span style="color: #82aaff;">useEffect</span>(() =&gt; { <span style="color: #82aaff;">cargarDatos</span>() }, []);</p>
+
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// ✅ [dep] → cada vez que cambia "query"</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.75rem;"><span style="color: #82aaff;">useEffect</span>(() =&gt; { <span style="color: #82aaff;">buscar</span>(query) }, [<span style="color: #f78c6c;">query</span>]);</p>
+
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// ♻️ Cleanup → se ejecuta al desmontar el componente</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #82aaff;">useEffect</span>(() =&gt; {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> <span style="color: #f78c6c;">timer</span> = <span style="color: #82aaff;">setInterval</span>(() =&gt; { ... }, <span style="color: #f78c6c;">1000</span>);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> () =&gt; <span style="color: #82aaff;">clearInterval</span>(timer); <span style="color: #6b7280;">// limpia al desmontar</span></p>
+    <p style="color: #cbd5e1;">}, []);</p>
+  </div>
+</section>
+
+<!-- SLIDE: USEREF -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">useRef: referencias sin re-render</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 <code>useRef</code> tiene 2 usos: acceder directamente a un elemento del DOM, y guardar un valor que persiste entre renders <em>sin</em> causar re-render (al contrario que useState).</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.75rem;">
+    <p style="color: #c792ea; margin-bottom: 0.75rem;"><span style="color: #c792ea;">import</span> { <span style="color: #82aaff;">useRef</span> } <span style="color: #c792ea;">from</span> <span style="color: #c3e88d;">'react'</span>;</p>
+
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// 1️⃣ Acceder a un nodo del DOM directamente</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Busqueda</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> <span style="color: #f78c6c;">inputRef</span> = <span style="color: #82aaff;">useRef</span>(<span style="color: #ff5370;">null</span>);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> <span style="color: #82aaff;">enfocar</span> = () =&gt; inputRef.<span style="color: #f78c6c;">current</span>.<span style="color: #82aaff;">focus</span>();</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">input</span> <span style="color: #c792ea;">ref</span>={inputRef} <span style="color: #c792ea;">placeholder</span>=<span style="color: #c3e88d;">"Buscar..."</span> /&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">button</span> <span style="color: #c792ea;">onClick</span>={enfocar}&gt;Enfocar&lt;/<span style="color: #f07178;">button</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">  )</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.75rem;">}</p>
+
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// 2️⃣ Guardar un valor sin causar re-render</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">const</span> <span style="color: #f78c6c;">renderCount</span> = <span style="color: #82aaff;">useRef</span>(<span style="color: #f78c6c;">0</span>);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">renderCount.<span style="color: #f78c6c;">current</span>++; <span style="color: #6b7280;">// cambia el valor pero NO re-renderiza</span></p>
+  </div>
+</section>
+
+<!-- SLIDE 15: LISTAS Y KEYS -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Listas y Keys</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Usa .map() para renderizar listas. La key debe ser única y estable (identifica cada elemento).</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.8rem;">
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">ListaTareas</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> <span style="color: #f78c6c;">tareas</span> = [</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    { <span style="color: #f78c6c;">id</span>: <span style="color: #f78c6c;">1</span>, <span style="color: #f78c6c;">texto</span>: <span style="color: #c3e88d;">'Aprender React'</span> },</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    { <span style="color: #f78c6c;">id</span>: <span style="color: #f78c6c;">2</span>, <span style="color: #f78c6c;">texto</span>: <span style="color: #c3e88d;">'Crear proyecto'</span> }</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">  ];</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">ul</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      {tareas.<span style="color: #82aaff;">map</span>(tarea =&gt; (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        &lt;<span style="color: #f07178;">li</span> <span style="color: #c792ea;">key</span>={tarea.id}&gt;{tarea.texto}&lt;/<span style="color: #f07178;">li</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      ))}</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">ul</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE: KEY ID VS INDICE -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Key: ¿por qué NO usar el índice?</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 React usa la <code>key</code> para rastrear qué elemento es qué. Si usas el índice como key y borras o reordenas items, React reutiliza el DOM incorrecto → bugs de UI.</p>
+  <div style="display: flex; gap: 1.5rem;">
+    <div style="flex:1; background-color: #1e293b; padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.75rem; border-left: 3px solid #f87171;">
+      <p style="color: #f87171; margin-bottom: 0.5rem;">❌ MAL — key con índice</p>
+      <p style="color: #6b7280; margin-bottom: 0.25rem;">// Si borras la tarea 0, la tarea 1</p>
+      <p style="color: #6b7280; margin-bottom: 0.5rem;">// pasa a ser key=0 → React la reutiliza mal</p>
+      <p style="color: #cbd5e1; margin-bottom: 0.25rem;">tareas.<span style="color: #82aaff;">map</span>((t, <span style="color: #ff5370;">i</span>) =&gt; (</p>
+      <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  &lt;<span style="color: #f07178;">li</span> <span style="color: #c792ea;">key</span>={<span style="color: #ff5370;">i</span>}&gt;</p>
+      <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    {t.texto}</p>
+      <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  &lt;/<span style="color: #f07178;">li</span>&gt;</p>
+      <p style="color: #cbd5e1;">))</p>
+    </div>
+    <div style="flex:1; background-color: #1e293b; padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.75rem; border-left: 3px solid #4ade80;">
+      <p style="color: #4ade80; margin-bottom: 0.5rem;">✅ BIEN — key con id único</p>
+      <p style="color: #6b7280; margin-bottom: 0.25rem;">// La key es estable aunque</p>
+      <p style="color: #6b7280; margin-bottom: 0.5rem;">// cambien el orden o se borren</p>
+      <p style="color: #cbd5e1; margin-bottom: 0.25rem;">tareas.<span style="color: #82aaff;">map</span>((t) =&gt; (</p>
+      <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  &lt;<span style="color: #f07178;">li</span> <span style="color: #c792ea;">key</span>={t.<span style="color: #f78c6c;">id</span>}&gt;</p>
+      <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    {t.texto}</p>
+      <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  &lt;/<span style="color: #f07178;">li</span>&gt;</p>
+      <p style="color: #cbd5e1;">))</p>
+    </div>
+  </div>
+  <p class="text-sm mt-3" style="color: #94a3b8;">👉 Genera IDs con <code style="background:#1e293b;padding:0.1rem 0.3rem;">Date.now()</code>, <code style="background:#1e293b;padding:0.1rem 0.3rem;">crypto.randomUUID()</code> o un simple contador incremental.</p>
+</section>
+
+<!-- SLIDE: INMUTABILIDAD ESTADO -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Actualizar arrays y objetos en estado</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Nunca mutéis el estado directamente. Siempre cread una copia nueva — React no detecta cambios si mutáis el original.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.75rem;">
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// ❌ MAL: mutar directamente → React NO re-renderiza</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.75rem;">state.<span style="color: #82aaff;">push</span>(nueva); <span style="color: #82aaff;">setState</span>(state);</p>
+
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// ✅ AÑADIR — spread</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"><span style="color: #82aaff;">setTareas</span>([...tareas, nuevaTarea]);</p>
+
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// ✅ BORRAR — filter</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"><span style="color: #82aaff;">setTareas</span>(tareas.<span style="color: #82aaff;">filter</span>(t =&gt; t.id !== id));</p>
+
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// ✅ MODIFICAR — map + spread del objeto</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #82aaff;">setTareas</span>(tareas.<span style="color: #82aaff;">map</span>(t =&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">  t.id === id ? { ...t, <span style="color: #f78c6c;">completada</span>: <span style="color: #ff5370;">true</span> } : t</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.75rem;">));</p>
+
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// ✅ ACTUALIZAR OBJETO — spread</p>
+    <p style="color: #cbd5e1;"><span style="color: #82aaff;">setUsuario</span>({ ...usuario, <span style="color: #f78c6c;">nombre</span>: <span style="color: #c3e88d;">'Ana'</span> });</p>
+  </div>
+</section>
+
+<!-- SLIDE 16: EJERCICIO 1 -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-4" style="color: #38bdf8;">💪 Ejercicio 1: Contador Mejorado</h2>
+  <p class="text-base mb-2" style="color: #94a3b8; font-style: italic;">Pon en práctica useState y eventos</p>
+  <ul class="text-base" style="color: #cbd5e1;">
+    <li>Contador que empieza en 0</li>
+    <li>Botón "+1" para incrementar</li>
+    <li>Botón "-1" para decrementar</li>
+    <li>Botón "Reset" para volver a 0</li>
+  </ul>
+  <p class="text-sm mt-4" style="color: #94a3b8;">⏱️ Tiempo: 8-10 minutos</p>
+  <p class="text-sm mt-3" style="color: #fbbf24;">🎯 Reto extra: añade límite mínimo/máximo (±10). Deshabilita los botones con <code style="background:#1e293b;padding:0.1rem 0.3rem;">disabled={contador &gt;= 10}</code> cuando se llegue al límite.</p>
+</section>
+
+<!-- SLIDE 17: CONDITIONAL RENDERING -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Renderizado Condicional</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Usa operadores JavaScript (&amp;&amp;, ? :) para mostrar u ocultar elementos según condiciones.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.85rem;">
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Mensaje</span>({ <span style="color: #f78c6c;">usuario</span> }) {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">div</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      <span style="color: #6b7280;">{/* Con &amp;&amp; */}</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      {usuario &amp;&amp; &lt;<span style="color: #f07178;">p</span>&gt;Hola {usuario}&lt;/<span style="color: #f07178;">p</span>&gt;}</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      <span style="color: #6b7280;">{/* Con ternario */}</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      {usuario ? (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        &lt;<span style="color: #f07178;">p</span>&gt;Bienvenido {usuario}&lt;/<span style="color: #f07178;">p</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      ) : (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        &lt;<span style="color: #f07178;">p</span>&gt;Inicia sesión&lt;/<span style="color: #f07178;">p</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      )}</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">div</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE: FORMULARIOS CONTROLADOS -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Formularios controlados</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Un input <em>controlado</em> mantiene su valor en el estado de React. El estado es la única fuente de verdad — el input sólo muestra lo que React dice.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.75rem;">
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Formulario</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">  <span style="color: #c792ea;">const</span> [<span style="color: #f78c6c;">nombre</span>, <span style="color: #f78c6c;">setNombre</span>] = <span style="color: #82aaff;">useState</span>(<span style="color: #c3e88d;">''</span>);</p>
+
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> <span style="color: #82aaff;">handleSubmit</span> = (e) =&gt; {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    e.<span style="color: #82aaff;">preventDefault</span>(); <span style="color: #6b7280;">// evita recarga de página</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    <span style="color: #82aaff;">console</span>.log(<span style="color: #c3e88d;">'Enviado:'</span>, nombre);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">  };</p>
+
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">form</span> <span style="color: #c792ea;">onSubmit</span>={handleSubmit}&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">input</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        <span style="color: #c792ea;">value</span>={nombre}</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        <span style="color: #c792ea;">onChange</span>={(e) =&gt; <span style="color: #82aaff;">setNombre</span>(e.<span style="color: #f78c6c;">target</span>.<span style="color: #f78c6c;">value</span>)}</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        <span style="color: #c792ea;">placeholder</span>=<span style="color: #c3e88d;">"Tu nombre"</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      /&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #f07178;">button</span> <span style="color: #c792ea;">type</span>=<span style="color: #c3e88d;">"submit"</span>&gt;Enviar&lt;/<span style="color: #f07178;">button</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">form</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE: LIFTING STATE UP -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Lifting state up: hijo → padre</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 En React el estado fluye hacia abajo (props). Para que un hijo notifique al padre, el padre pasa una <em>función callback</em> como prop.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.75rem;">
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// Padre — tiene el estado y pasa la función</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Padre</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> [<span style="color: #f78c6c;">valor</span>, <span style="color: #f78c6c;">setValor</span>] = <span style="color: #82aaff;">useState</span>(<span style="color: #c3e88d;">''</span>);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> &lt;<span style="color: #82aaff;">Hijo</span> <span style="color: #c792ea;">onChange</span>={setValor} /&gt;;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.75rem;">}</p>
+
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// Hijo — llama al callback del padre</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Hijo</span>({ <span style="color: #f78c6c;">onChange</span> }) {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">input</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      <span style="color: #c792ea;">onChange</span>={(e) =&gt; <span style="color: #82aaff;">onChange</span>(e.<span style="color: #f78c6c;">target</span>.<span style="color: #f78c6c;">value</span>)}</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    /&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+  <p class="text-sm mt-3" style="color: #94a3b8;">Patrón clave: estado en el ancestro común más cercano de todos los componentes que lo necesitan.</p>
+</section>
+
+<!-- SLIDE 18: EJERCICIO 2 -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-4" style="color: #38bdf8;">💪 Ejercicio 2: Lista de Tareas</h2>
+  <p class="text-lg mb-4" style="color: #cbd5e1;">Crea un gestor de tareas:</p>
+  <ul class="text-base" style="color: #cbd5e1;">
+    <li>Array de tareas con useState</li>
+    <li>Input + botón para agregar tareas</li>
+    <li>Renderizar lista con .map()</li>
+    <li>Botón para eliminar cada tarea</li>
+  </ul>
+  <p class="text-sm mt-6" style="color: #94a3b8;">⏱️ Tiempo: 10-12 minutos</p>
+  <p class="text-sm mt-3" style="color: #fbbf24;">🎯 Reto extra: añade un checkbox para marcar tareas completadas (texto tachado con <code style="background:#1e293b;padding:0.1rem 0.3rem;">text-decoration: line-through</code>) y un botón “Borrar completadas”.</p>
+</section>
+<section class="slide p-16 col center" style="background-color: #020617; color: #f1f5f9;">
+  <h1 class="text-6xl mb-4" style="color: #38bdf8;">☕ Descanso</h1>
+  <p class="text-2xl" style="color: #cbd5e1;">1 hora de descanso</p>
+  <p class="text-lg mt-8" style="color: #94a3b8;">Volveremos con Router y nuevos Hooks de React 19</p>
+</section>
+
+<!-- SLIDE 20: REACT ROUTER INTRO -->
+<section class="slide p-16 col center" style="background-color: #020617; color: #f1f5f9;">
+  <h1 class="text-5xl mb-4" style="color: #38bdf8;">React Router</h1>
+  <p class="text-2xl mb-4" style="color: #cbd5e1;">Navegar entre páginas</p>
+  <p class="text-lg" style="color: #94a3b8;">React Router permite crear aplicaciones multi-página (SPA).<br>Cada URL muestra un componente diferente sin recargar.</p>
+</section>
+
+<!-- SLIDE 21: INSTALAR ROUTER -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-4" style="color: #38bdf8;">Instalar React Router</h2>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: Courier New, monospace; font-size: 0.8rem; border-radius: 0.5rem;">
+    <p style="color: #6b7280; margin-bottom: 0.25rem;"># React Router v7 (la que usamos)</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">npm install react-router-dom@7</p>
+  </div>
+</section>
+
+<!-- SLIDE 22: CONFIGURAR RUTAS -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Configurar Rutas</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 <code style="background:#1e293b;padding:0.1rem 0.4rem;">createBrowserRouter</code> define las rutas en un array (main.tsx). App usa <code style="background:#1e293b;padding:0.1rem 0.4rem;">&lt;Outlet /&gt;</code> donde se renderizan los hijos.</p>
+  <div style="background-color: #1e293b; padding: 1.25rem; font-family: 'Courier New', monospace; font-size: 0.68rem;">
+    <p style="color: #6b7280; margin-bottom: 0.4rem;">// main.tsx</p>
+    <p style="color: #c792ea; margin-bottom: 0.4rem;"><span style="color: #c792ea;">import</span> { <span style="color: #82aaff;">createBrowserRouter</span>, <span style="color: #82aaff;">RouterProvider</span> } <span style="color: #c792ea;">from</span> <span style="color: #c3e88d;">'react-router-dom'</span>;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">const</span> <span style="color: #f78c6c;">router</span> = <span style="color: #82aaff;">createBrowserRouter</span>([</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  { <span style="color: #f78c6c;">path</span>: <span style="color: #c3e88d;">'/'</span>, <span style="color: #f78c6c;">element</span>: &lt;<span style="color: #82aaff;">App</span> /&gt;,  <span style="color: #6b7280;">// ← App tiene &lt;Outlet /&gt;</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    <span style="color: #f78c6c;">children</span>: [</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      { <span style="color: #f78c6c;">index</span>: <span style="color: #ff5370;">true</span>, <span style="color: #f78c6c;">element</span>: &lt;<span style="color: #82aaff;">Home</span> /&gt; },</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      { <span style="color: #f78c6c;">path</span>: <span style="color: #c3e88d;">'productos'</span>, <span style="color: #f78c6c;">element</span>: &lt;<span style="color: #82aaff;">Productos</span> /&gt; },</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      { <span style="color: #f78c6c;">path</span>: <span style="color: #c3e88d;">'producto/:id'</span>, <span style="color: #f78c6c;">element</span>: &lt;<span style="color: #82aaff;">Detalle</span> /&gt; },</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    ],</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">  },</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">]);</p>
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// En main.tsx — sustituye &lt;App /&gt; por RouterProvider</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">&lt;<span style="color: #82aaff;">RouterProvider</span> <span style="color: #c792ea;">router</span>={router} /&gt;</p>
+    <p style="color: #6b7280; margin-bottom: 0.25rem;">// En App.tsx — Outlet marca dónde se renderiza el hijo activo</p>
+    <p style="color: #c792ea; margin-bottom: 0.25rem;"><span style="color: #c792ea;">import</span> { <span style="color: #82aaff;">Outlet</span> } <span style="color: #c792ea;">from</span> <span style="color: #c3e88d;">'react-router-dom'</span>;</p>
+    <p style="color: #cbd5e1;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">App</span>() { <span style="color: #c792ea;">return</span> ( &lt;<span style="color: #f07178;">div</span>&gt;&lt;<span style="color: #f07178;">nav</span>&gt;...&lt;/<span style="color: #f07178;">nav</span>&gt;&lt;<span style="color: #82aaff;">Outlet</span> /&gt;&lt;/<span style="color: #f07178;">div</span>&gt; ) }</p>
+  </div>
+</section>
+
+<!-- SLIDE 23: LINK Y NAVEGACIÓN -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Link y NavLink: navegar sin recargar</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Usa <code style="background:#1e293b;padding:0.1rem 0.4rem;">Link</code> para navegar sin recargar. Usa <code style="background:#1e293b;padding:0.1rem 0.4rem;">NavLink</code> cuando necesites saber si el enlace está activo (para estilarlo).</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.8rem;">
+    <p style="color: #c792ea; margin-bottom: 0.75rem;"><span style="color: #c792ea;">import</span> { <span style="color: #82aaff;">Link</span>, <span style="color: #82aaff;">NavLink</span> } <span style="color: #c792ea;">from</span> <span style="color: #c3e88d;">'react-router-dom'</span>;</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Nav</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">nav</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      <span style="color: #6b7280;">{/* Link — navegación normal */}</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #82aaff;">Link</span> <span style="color: #c792ea;">to</span>=<span style="color: #c3e88d;">""</span>&gt;Home&lt;/<span style="color: #82aaff;">Link</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      <span style="color: #6b7280;">{/* NavLink — añade clase 'active' al enlace actual */}</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;<span style="color: #82aaff;">NavLink</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        <span style="color: #c792ea;">to</span>=<span style="color: #c3e88d;">"/productos"</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        <span style="color: #c792ea;">className</span>={({ <span style="color: #f78c6c;">isActive</span> }) =&gt; isActive ? <span style="color: #c3e88d;">'active'</span> : <span style="color: #c3e88d;">''</span>}</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        Productos</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      &lt;/<span style="color: #82aaff;">NavLink</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">nav</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE 24: USEPARAMS -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-4" style="color: #38bdf8;">useParams: capturar parámetros</h2>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.8rem;">
+    <p style="color: #c792ea; margin-bottom: 0.75rem;"><span style="color: #c792ea;">import</span> { <span style="color: #82aaff;">useParams</span> } <span style="color: #c792ea;">from</span> <span style="color: #c3e88d;">'react-router-dom'</span>;</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Detalle</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> { <span style="color: #f78c6c;">id</span> } = <span style="color: #82aaff;">useParams</span>();</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> &lt;<span style="color: #f07178;">h2</span>&gt;Producto #{id}&lt;/<span style="color: #f07178;">h2</span>&gt;;</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE 25: FETCH API -->
+<section class="slide p-16 col center" style="background-color: #020617; color: #f1f5f9;">
+  <h1 class="text-5xl mb-4" style="color: #38bdf8;">Fetch API</h1>
+  <p class="text-2xl mb-4" style="color: #cbd5e1;">Obtener datos de APIs</p>
+  <p class="text-lg" style="color: #94a3b8;">Fetch es la función nativa del navegador para hacer peticiones HTTP.<br>Combínala con useEffect para cargar datos al montar el componente.</p>
+</section>
+
+<!-- SLIDE 26: FETCH BÁSICO -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Fetch con useEffect</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Llama a fetch dentro de useEffect con array vacío [] para ejecutar solo al montar.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.7rem;">
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Usuarios</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> [<span style="color: #f78c6c;">usuarios</span>, <span style="color: #f78c6c;">setUsuarios</span>] = <span style="color: #82aaff;">useState</span>([]);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #82aaff;">useEffect</span>(() =&gt; {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    <span style="color: #82aaff;">fetch</span>(<span style="color: #c3e88d;">'https://jsonplaceholder.typicode.com/users'</span>)</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      .<span style="color: #82aaff;">then</span>(res =&gt; res.<span style="color: #82aaff;">json</span>())</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      .<span style="color: #82aaff;">then</span>(data =&gt; <span style="color: #82aaff;">setUsuarios</span>(data))</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      .<span style="color: #82aaff;">catch</span>(err =&gt; <span style="color: #89ddff;">console</span>.<span style="color: #82aaff;">error</span>(err));</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">  }, []);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">ul</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      {usuarios.<span style="color: #82aaff;">map</span>(u =&gt; (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        &lt;<span style="color: #f07178;">li</span> <span style="color: #c792ea;">key</span>={u.id}&gt;{u.name}&lt;/<span style="color: #f07178;">li</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      ))}</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">ul</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE 27: EJERCICIO 3 -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-4" style="color: #38bdf8;">💪 Ejercicio 3: Pokémon API</h2>
+  <p class="text-lg mb-4" style="color: #cbd5e1;">Crea una app de Pokémon:</p>
+  <ul class="text-base" style="color: #cbd5e1;">
+    <li>Fetch a https://pokeapi.co/api/v2/pokemon</li>
+    <li>Mostrar lista con nombres</li>
+    <li>Añadir loading state</li>
+    <li>Manejar errores con try/catch</li>
+  </ul>
+  <p class="text-sm mt-6" style="color: #94a3b8;">⏱️ Tiempo: 10-12 minutos</p>
+  <p class="text-sm mt-3" style="color: #fbbf24;">🎯 Reto extra: añade un <code style="background:#1e293b;padding:0.1rem 0.3rem;">&lt;input&gt;</code> de búsqueda y filtra los Pokémon en tiempo real usando <code style="background:#1e293b;padding:0.1rem 0.3rem;">.filter()</code> sobre el estado.</p>
+</section>
+<section class="slide p-16 col center" style="background-color: #020617; color: #f1f5f9;">
+  <h1 class="text-5xl mb-4" style="color: #38bdf8;">Nuevos Hooks React 19</h1>
+  <p class="text-2xl mb-4" style="color: #cbd5e1;">Actions, useOptimistic, useFormStatus</p>
+  <p class="text-lg" style="color: #94a3b8;">React 19 introduce nuevos hooks para formularios,<br>actualizaciones optimistas y mejor gestión de estado asíncrono.</p>
+</section>
+
+<!-- SLIDE 29: USEACTIONSTATE -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">useActionState: gestionar acciones asíncronas</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Nuevo hook que gestiona el estado de acciones asíncronas (loading, error, data) automáticamente.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.75rem;">
+    <p style="color: #c792ea; margin-bottom: 0.75rem;"><span style="color: #c792ea;">import</span> { <span style="color: #82aaff;">useActionState</span> } <span style="color: #c792ea;">from</span> <span style="color: #c3e88d;">'react'</span>;</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">async function</span> <span style="color: #82aaff;">guardarDatos</span>(<span style="color: #f78c6c;">data</span>) {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> <span style="color: #f78c6c;">res</span> = <span style="color: #c792ea;">await</span> <span style="color: #82aaff;">fetch</span>(<span style="color: #c3e88d;">'/api/save'</span>, {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    <span style="color: #f78c6c;">method</span>: <span style="color: #c3e88d;">'POST'</span>,</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    <span style="color: #f78c6c;">body</span>: <span style="color: #89ddff;">JSON</span>.<span style="color: #82aaff;">stringify</span>(data)</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  });</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return await</span> res.<span style="color: #82aaff;">json</span>();</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.75rem;">}</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Form</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> [<span style="color: #f78c6c;">state</span>, <span style="color: #f78c6c;">action</span>] = <span style="color: #82aaff;">useActionState</span>(guardarDatos);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> &lt;<span style="color: #f07178;">form</span> <span style="color: #c792ea;">action</span>={action}&gt;...&lt;/<span style="color: #f07178;">form</span>&gt;;</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE 30: USEFORMSTATUS -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">useFormStatus: estado del formulario</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Hook que te da el estado del formulario padre (pending, data). Perfecto para botones de submit.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.75rem;">
+    <p style="color: #c792ea; margin-bottom: 0.75rem;"><span style="color: #c792ea;">import</span> { <span style="color: #82aaff;">useFormStatus</span> } <span style="color: #c792ea;">from</span> <span style="color: #c3e88d;">'react-dom'</span>;</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">SubmitButton</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> { <span style="color: #f78c6c;">pending</span> } = <span style="color: #82aaff;">useFormStatus</span>();</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">button</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      <span style="color: #c792ea;">type</span>=<span style="color: #c3e88d;">"submit"</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      <span style="color: #c792ea;">disabled</span>={pending}</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      {pending ? <span style="color: #c3e88d;">'Enviando...'</span> : <span style="color: #c3e88d;">'Enviar'</span>}</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">button</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE 31: USEOPTIMISTIC -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">useOptimistic: UI optimista</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Actualiza la UI inmediatamente mientras se procesa en background. Si falla, revierte automáticamente.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.7rem;">
+    <p style="color: #c792ea; margin-bottom: 0.75rem;"><span style="color: #c792ea;">import</span> { <span style="color: #82aaff;">useOptimistic</span> } <span style="color: #c792ea;">from</span> <span style="color: #c3e88d;">'react'</span>;</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Likes</span>({ <span style="color: #f78c6c;">count</span> }) {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> [<span style="color: #f78c6c;">optimisticCount</span>, <span style="color: #f78c6c;">setOptimistic</span>] = </p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">    <span style="color: #82aaff;">useOptimistic</span>(count);</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">async function</span> <span style="color: #82aaff;">handleLike</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    <span style="color: #82aaff;">setOptimistic</span>(optimisticCount + <span style="color: #f78c6c;">1</span>);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    <span style="color: #c792ea;">await</span> <span style="color: #82aaff;">fetch</span>(<span style="color: #c3e88d;">'/api/like'</span>, { <span style="color: #f78c6c;">method</span>: <span style="color: #c3e88d;">'POST'</span> });</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  }</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> (</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;<span style="color: #f07178;">button</span> <span style="color: #c792ea;">onClick</span>={handleLike}&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      ❤️ {optimisticCount}</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    &lt;/<span style="color: #f07178;">button</span>&gt;</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  )</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE 32: USE HOOK -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">use: leer recursos en render</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Nuevo hook que permite leer Promises y Context directamente en el render.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.8rem;">
+    <p style="color: #c792ea; margin-bottom: 0.75rem;"><span style="color: #c792ea;">import</span> { <span style="color: #82aaff;">use</span> } <span style="color: #c792ea;">from</span> <span style="color: #c3e88d;">'react'</span>;</p>
+    
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">Usuario</span>({ <span style="color: #f78c6c;">promesa</span> }) {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #6b7280;">// Suspende hasta que se resuelva</span></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> <span style="color: #f78c6c;">user</span> = <span style="color: #82aaff;">use</span>(promesa);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> &lt;<span style="color: #f07178;">h2</span>&gt;{user.name}&lt;/<span style="color: #f07178;">h2</span>&gt;;</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE 33: SERVER COMPONENTS INTRO -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-3" style="color: #38bdf8;">React Server Components (RSC)</h2>
+  <p class="text-base mb-4" style="color: #94a3b8;">Componentes que se ejecutan en el servidor. Solo envían HTML al cliente — JavaScript cero.</p>
+  <ul class="text-lg" style="color: #cbd5e1;">
+    <li><strong>Mejor rendimiento</strong> — menos JS en el navegador</li>
+    <li><strong>Acceso directo a datos</strong> — fetch en servidor sin API</li>
+    <li><strong>SEO mejorado</strong> — HTML completo desde el servidor</li>
+    <li><strong>Disponible en Next.js 14+</strong></li>
+  </ul>
+</section>
+
+<!-- SLIDE 34: REACT COMPILER -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-3" style="color: #38bdf8;">React Compiler (Experimental)</h2>
+  <p class="text-base mb-4" style="color: #94a3b8;">Compilador que optimiza automáticamente tu código React sin necesidad de useMemo o useCallback.</p>
+  <ul class="text-lg" style="color: #cbd5e1;">
+    <li>Memoización automática de componentes</li>
+    <li>Optimiza re-renders innecesarios</li>
+    <li>Reduce boilerplate de optimización</li>
+    <li>Experimental en React 19</li>
+  </ul>
+</section>
+
+<!-- SLIDE 35: CUSTOM HOOKS -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Custom Hooks: reutilizar lógica</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Crea tus propios hooks para extraer y reutilizar lógica. Deben empezar con "use".</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.75rem;">
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;"><span style="color: #c792ea;">function</span> <span style="color: #82aaff;">useFetch</span>(<span style="color: #f78c6c;">url</span>) {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> [<span style="color: #f78c6c;">data</span>, <span style="color: #f78c6c;">setData</span>] = <span style="color: #82aaff;">useState</span>(<span style="color: #ff5370;">null</span>);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">const</span> [<span style="color: #f78c6c;">loading</span>, <span style="color: #f78c6c;">setLoading</span>] = <span style="color: #82aaff;">useState</span>(<span style="color: #ff5370;">true</span>);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">  <span style="color: #c792ea;">const</span> [<span style="color: #f78c6c;">error</span>, <span style="color: #f78c6c;">setError</span>] = <span style="color: #82aaff;">useState</span>(<span style="color: #ff5370;">null</span>);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #82aaff;">useEffect</span>(() =&gt; {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    <span style="color: #c792ea;">async function</span> <span style="color: #82aaff;">cargar</span>() {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      <span style="color: #c792ea;">try</span> {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        <span style="color: #c792ea;">const</span> <span style="color: #f78c6c;">res</span> = <span style="color: #c792ea;">await</span> <span style="color: #82aaff;">fetch</span>(url);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        <span style="color: #82aaff;">setData</span>(<span style="color: #c792ea;">await</span> res.<span style="color: #82aaff;">json</span>());</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      } <span style="color: #c792ea;">catch</span> (err) {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        <span style="color: #82aaff;">setError</span>(err.<span style="color: #f78c6c;">message</span>);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">      } <span style="color: #c792ea;">finally</span> {</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">        <span style="color: #82aaff;">setLoading</span>(<span style="color: #ff5370;">false</span>);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;">      }</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    }</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">    <span style="color: #82aaff;">cargar</span>();</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  }, [url]);</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.5rem;"></p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">  <span style="color: #c792ea;">return</span> { data, loading, error };</p>
+    <p style="color: #cbd5e1;">}</p>
+  </div>
+</section>
+
+<!-- SLIDE 36: EJERCICIO 4 -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-4" style="color: #38bdf8;">💪 Ejercicio 4: Custom Hook useFetch</h2>
+  <p class="text-lg mb-4" style="color: #cbd5e1;">Crea y usa un custom hook:</p>
+  <ul class="text-base" style="color: #cbd5e1;">
+    <li>Hook useFetch que recibe URL</li>
+    <li>Devuelve {data, loading, error}</li>
+    <li>Úsalo en un componente para mostrar posts</li>
+    <li>Maneja loading y errores</li>
+  </ul>
+  <p class="text-sm mt-6" style="color: #94a3b8;">⏱️ Tiempo: 10-12 minutos</p>
+  <p class="text-sm mt-3" style="color: #fbbf24;">🎯 Reto extra: mueve <code style="background:#1e293b;padding:0.1rem 0.3rem;">useFetch</code> a una carpeta <code style="background:#1e293b;padding:0.1rem 0.3rem;">src/hooks/</code> y reusálo en un segundo componente. Añade un buscador de posts.</p>
+</section>
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-2" style="color: #38bdf8;">Estructura Recomendada</h2>
+  <p class="text-sm mb-3" style="color: #94a3b8;">💡 Organiza por features en vez de por tipo de archivo.</p>
+  <div style="background-color: #1e293b; padding: 1.5rem; font-family: Courier New, monospace; font-size: 0.8rem;">
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">src/</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">├── components/     ← Componentes reutilizables</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">├── hooks/          ← Custom hooks</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">├── features/       ← Por funcionalidad</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">│   ├── products/</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">│   ├── users/</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">│   └── admin/</p>
+    <p style="color: #cbd5e1; margin-bottom: 0.25rem;">├── services/       ← API calls</p>
+    <p style="color: #cbd5e1;">└── utils/          ← Utilidades</p>
+  </div>
+</section>
+
+<!-- SLIDE 38: RECURSOS -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-6" style="color: #38bdf8;">📚 Recursos para Seguir</h2>
+  <ul class="text-lg" style="color: #cbd5e1;">
+    <li>Documentación oficial: react.dev</li>
+    <li>React Blog (actualizaciones)</li>
+    <li>GitHub: facebook/react</li>
+    <li>Comunidad: Discord y Reddit r/reactjs</li>
+  </ul>
+</section>
+
+<!-- SLIDE 39: PRÓXIMOS PASOS -->
+<section class="slide p-16 col" style="background-color: #0f172a; color: #f1f5f9;">
+  <h2 class="mb-6" style="color: #38bdf8;">🚀 Próximos Pasos</h2>
+  <ul class="text-lg" style="color: #cbd5e1;">
+    <li>Practica componentes funcionales y hooks</li>
+    <li>Experimenta con los nuevos hooks de React 19</li>
+    <li>Construye una app completa con Router y fetch</li>
+    <li>Explora Next.js para Server Components</li>
+  </ul>
+</section>
+
+<!-- SLIDE 40: THANK YOU -->
+<section class="slide p-16 col center" style="background-color: #020617; color: #f1f5f9;">
+  <h2 class="text-5xl mb-6" style="color: #38bdf8;">¡Gracias!</h2>
+  <p class="text-xl" style="color: #cbd5e1;">¿Preguntas?</p>
+  <p class="text-sm mt-8" style="color: #94a3b8;">Roberto Cano Estévez • Marzo 2026</p>
+</section>
+
+</body>
+</html>
+
